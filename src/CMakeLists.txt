@@ -7,4 +7,4 @@ FILE(GLOB_RECURSE app_sources ${CMAKE_SOURCE_DIR}/src/*.*)
 list(FILTER app_sources EXCLUDE REGEX ".*main\.cpp$")
 
 idf_component_register(SRCS ${app_sources}
-                    REQUIRES mdns )
+                    REQUIRES mdns)
