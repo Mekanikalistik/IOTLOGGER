@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ESP32 Touch Sensor Logger</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>ESP32 Touch Sensor Logger</h1>
+            <p>Touch event logging with FlashDB storage and CSV export</p>
+        </header>
+
+        <div class="status-section">
+            <h2>System Status</h2>
+            <div class="status-grid">
+                <div class="status-card">
+                    <div class="status-icon">📱</div>
+                    <div class="status-info">
+                        <h3 id="device-name">ESP32-S3-LoRa</h3>
+                        <p>Device Name</p>
+                    </div>
+                </div>
+                <div class="status-card">
+                    <div class="status-icon">📊</div>
+                    <div class="status-info">
+                        <h3 id="total-events">0</h3>
+                        <p>Total Touch Events</p>
+                    </div>
+                </div>
+                <div class="status-card">
+                    <div class="status-icon">🕐</div>
+                    <div class="status-info">
+                        <h3 id="last-event">--:--:--</h3>
+                        <p>Last Event Time</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="touch-section">
+            <h2>Touch Sensors</h2>
+            <div class="touch-grid">
+                <div class="touch-sensor" id="touch-1">
+                    <div class="sensor-icon">👆</div>
+                    <h3>Touch 1</h3>
+                    <p>GPIO 4</p>
+                    <div class="touch-indicator" id="indicator-1"></div>
+                </div>
+                <div class="touch-sensor" id="touch-2">
+                    <div class="sensor-icon">👆</div>
+                    <h3>Touch 2</h3>
+                    <p>GPIO 5</p>
+                    <div class="touch-indicator" id="indicator-2"></div>
+                </div>
+                <div class="touch-sensor" id="touch-3">
+                    <div class="sensor-icon">👆</div>
+                    <h3>Touch 3</h3>
+                    <p>GPIO 6</p>
+                    <div class="touch-indicator" id="indicator-3"></div>
+                </div>
+                <div class="touch-sensor" id="touch-4">
+                    <div class="sensor-icon">👆</div>
+                    <h3>Touch 4</h3>
+                    <p>GPIO 7</p>
+                    <div class="touch-indicator" id="indicator-4"></div>
+                </div>
+                <div class="touch-sensor" id="touch-5">
+                    <div class="sensor-icon">👆</div>
+                    <h3>Touch 5</h3>
+                    <p>GPIO 8</p>
+                    <div class="touch-indicator" id="indicator-5"></div>
+                </div>
+                <div class="touch-sensor" id="touch-6">
+                    <div class="sensor-icon">👆</div>
+                    <h3>Touch 6</h3>
+                    <p>GPIO 9</p>
+                    <div class="touch-indicator" id="indicator-6"></div>
+                </div>
+                <div class="touch-sensor" id="touch-7">
+                    <div class="sensor-icon">👆</div>
+                    <h3>Touch 7</h3>
+                    <p>GPIO 10</p>
+                    <div class="touch-indicator" id="indicator-7"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="logs-section">
+            <h2>Touch Event Logs</h2>
+            <div class="logs-controls">
+                <button id="refresh-btn" class="btn-primary">Refresh Logs</button>
+                <button id="export-btn" class="btn-secondary">Export CSV</button>
+            </div>
+            <div class="logs-table">
+                <table id="logs-table">
+                    <thead>
+                        <tr>
+                            <th>Timestamp</th>
+                            <th>Touch Pad</th>
+                            <th>User</th>
+                        </tr>
+                    </thead>
+                    <tbody id="logs-body">
+                        <tr>
+                            <td colspan="3" class="no-data">No touch events recorded yet</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="chart-section">
+            <h2>Activity Overview</h2>
+            <canvas id="activityChart" width="400" height="200"></canvas>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
