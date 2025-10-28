@@ -13,7 +13,7 @@
 #include "esp_vfs.h"
 #include "esp_spiffs.h"
 #include "driver/touch_sens.h"
-// #include "mdns.h"
+#include "mdns.h"
 
 static const char *TAG = "TOUCH_LOGGER";
 
@@ -266,9 +266,9 @@ void app_main()
     ESP_ERROR_CHECK(esp_wifi_start());
 
     // Initialize mDNS
-    // ESP_ERROR_CHECK(mdns_init());
-    // ESP_ERROR_CHECK(mdns_hostname_set("RATSF_PROTO"));
-    // ESP_ERROR_CHECK(mdns_instance_name_set("ESP32 Touch Logger"));
+    ESP_ERROR_CHECK(mdns_init());
+    ESP_ERROR_CHECK(mdns_hostname_set("RATSF_PROTO"));
+    ESP_ERROR_CHECK(mdns_instance_name_set("ESP32 Touch Logger"));
 
     ESP_LOGI(TAG, "WiFi AP started. Connect to SSID: %s, Password: %s", wifi_config.ap.ssid, wifi_config.ap.password);
     ESP_LOGI(TAG, "Web UI available at: http://RATSF_PROTO.local or http://192.168.4.1");
