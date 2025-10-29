@@ -21,12 +21,12 @@ static const char *TAG = "TOUCH_LOGGER";
 static struct fdb_tsdb tsdb = {0};
 
 // Touch pad configuration
-#define TOUCH_PAD_COUNT 7
+#define TOUCH_PAD_COUNT 8
 static const int touch_pads[TOUCH_PAD_COUNT] = {
-    4, 5, 6, 7, 8, 9, 10};
+    2, 3, 4, 5, 6, 7, 14, 15};
 static const char *touch_pad_names[TOUCH_PAD_COUNT] = {
     "Touch_1", "Touch_2", "Touch_3", "Touch_4",
-    "Touch_5", "Touch_6", "Touch_7"};
+    "Touch_5", "Touch_6", "Touch_7", "Touch_8"};
 
 // Touch handles
 static touch_sensor_handle_t touch_handle;

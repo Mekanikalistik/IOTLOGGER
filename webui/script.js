@@ -2,7 +2,7 @@
 
 let activityChart;
 let touchEvents = [];
-let currentIndicators = [false, false, false, false, false, false, false];
+let currentIndicators = [false, false, false, false, false, false, false, false];
 
 // Initialize the application
 async function init() {
@@ -20,10 +20,10 @@ function initChart() {
     activityChart = new Chart(ctx, {
         type: 'bar',
         data: {
-            labels: ['Touch 1', 'Touch 2', 'Touch 3', 'Touch 4', 'Touch 5', 'Touch 6', 'Touch 7'],
+            labels: ['Touch 1', 'Touch 2', 'Touch 3', 'Touch 4', 'Touch 5', 'Touch 6', 'Touch 7', 'Touch 8'],
             datasets: [{
                 label: 'Touch Events',
-                data: [0, 0, 0, 0, 0, 0, 0],
+                data: [0, 0, 0, 0, 0, 0, 0, 0],
                 backgroundColor: [
                     '#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0',
                     '#9966FF', '#FF9F40', '#FF6384'
@@ -99,11 +99,11 @@ function updateLogsTable(logs) {
 
 // Update activity chart
 function updateActivityChart(logs) {
-    const touchCounts = [0, 0, 0, 0, 0, 0, 0];
+    const touchCounts = new Array(currentIndicators.length).fill(0); // Dynamically size based on currentIndicators
 
     logs.forEach(log => {
         const padNumber = parseInt(log.pad.replace('Touch_', '')) - 1;
-        if (padNumber >= 0 && padNumber < 7) {
+        if (padNumber >= 0 && padNumber < touchCounts.length) {
             touchCounts[padNumber]++;
         }
     });
@@ -128,7 +128,7 @@ function updateStatusInfo(logs) {
 
 // Simulate touch indicator updates
 function updateTouchIndicators() {
-    for (let i = 0; i < 7; i++) {
+    for (let i = 0; i < currentIndicators.length; i++) {
         const indicator = document.getElementById(`indicator-${i + 1}`);
         const wasActive = indicator.classList.contains('active');
 
