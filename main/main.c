@@ -3,7 +3,7 @@
 #include "freertos/task.h"
 #include "esp_system.h"
 #include "esp_log.h"
-#include "flashdb.h"
+#include <flashdb.h>
 #include <string.h>
 #include "nvs_flash.h"
 #include "esp_netif.h"
@@ -39,7 +39,16 @@ static httpd_handle_t server = NULL;
 static fdb_err_t tsdb_init(void)
 {
     fdb_err_t result;
-    result = fdb_tsdb_init(&tsdb, "touch_events", "flashdb", NULL, 1024, NULL);
+    ESP_LOGD(TAG, "Calling fdb_tsdb_init with name 'touch_events' and part_name 'flashdb'");
+    result = fdb_tsdb_init(&tsdb, "touch_events", "flashdb", NULL, 4096, NULL);
+    if (result != FDB_NO_ERR)
+    {
+        ESP_LOGE(TAG, "fdb_tsdb_init failed with error code: %d", result);
+    }
+    else
+    {
+        ESP_LOGD(TAG, "fdb_tsdb_init returned FDB_NO_ERR");
+    }
     return result;
 }
 
@@ -253,10 +262,10 @@ void app_main()
 
     wifi_config_t wifi_config = {
         .ap = {
-            .ssid = "RATSF_PROTO",
-            .ssid_len = strlen("RATSF_PROTO"),
+            .ssid = "ratsf-proto",
+            .ssid_len = strlen("ratsf-proto"),
             .channel = 1,
-            .password = "6113",
+            .password = "61136113",
             .max_connection = 4,
             .authmode = WIFI_AUTH_WPA2_PSK},
     };
@@ -267,11 +276,11 @@ void app_main()
 
     // Initialize mDNS
     ESP_ERROR_CHECK(mdns_init());
-    ESP_ERROR_CHECK(mdns_hostname_set("RATSF_PROTO"));
+    ESP_ERROR_CHECK(mdns_hostname_set("ratsf-proto"));
     ESP_ERROR_CHECK(mdns_instance_name_set("ESP32 Touch Logger"));
 
     ESP_LOGI(TAG, "WiFi AP started. Connect to SSID: %s, Password: %s", wifi_config.ap.ssid, wifi_config.ap.password);
-    ESP_LOGI(TAG, "Web UI available at: http://RATSF_PROTO.local or http://192.168.4.1");
+    ESP_LOGI(TAG, "Web UI available at: http://ratsf-proto.local or http://192.168.4.1");
 
     // Initialize SPIFFS
     esp_vfs_spiffs_conf_t conf = {
@@ -295,6 +304,19 @@ void app_main()
     else
     {
         ESP_LOGI(TAG, "SPIFFS mounted. Total: %d KB, Used: %d KB", total / 1024, used / 1024);
+    }
+
+    // Erase FlashDB partition before initialization
+    const esp_partition_t *flashdb_part = esp_partition_find_first(0x40, 0x00, "flashdb");
+    if (flashdb_part)
+    {
+        ESP_ERROR_CHECK(esp_partition_erase_range(flashdb_part, 0, flashdb_part->size));
+        ESP_LOGI(TAG, "FlashDB partition erased");
+    }
+    else
+    {
+        ESP_LOGE(TAG, "FlashDB partition not found!");
+        return;
     }
 
     // Initialize FlashDB TSDB

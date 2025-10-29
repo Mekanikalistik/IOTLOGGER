@@ -1,9 +1,14 @@
 idf_component_register(
-    SRCS "porting/fal_flash_esp32_port.c"
-         "${CMAKE_CURRENT_LIST_DIR}/../../.pio/libdeps/heltec_wifi_lora_32_V3/FlashDB/port/fal/src/fal.c"
-         "${CMAKE_CURRENT_LIST_DIR}/../../.pio/libdeps/heltec_wifi_lora_32_V3/FlashDB/port/fal/src/fal_flash.c"
-         "${CMAKE_CURRENT_LIST_DIR}/../../.pio/libdeps/heltec_wifi_lora_32_V3/FlashDB/port/fal/src/fal_partition.c"
+    SRCS "src/fdb.c"
+         "src/fdb_kvdb.c"
+         "src/fdb_tsdb.c"
+         "src/fdb_utils.c"
+         "port/fal/src/fal.c"
+         "port/fal/src/fal_flash.c"
+         "port/fal/src/fal_partition.c"
+         "port/fal_flash_esp32_port.c"
     INCLUDE_DIRS "inc"
-                 "${CMAKE_CURRENT_LIST_DIR}/../../.pio/libdeps/heltec_wifi_lora_32_V3/FlashDB/port/fal/inc"
+                 "port/fal/inc"
+                 "port/fal/inc" # Add this line to ensure fal.h is found
     PRIV_REQUIRES esp_partition freertos
 )
