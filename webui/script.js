@@ -2,7 +2,7 @@
 
 let activityChart;
 let touchEvents = [];
-let currentIndicators = [false, false, false, false, false, false, false, false];
+let currentIndicators = [false, false, false, false, false, false, false];
 
 // Initialize the application
 async function init() {
@@ -20,7 +20,7 @@ function initChart() {
     activityChart = new Chart(ctx, {
         type: 'bar',
         data: {
-            labels: ['Touch 1', 'Touch 2', 'Touch 3', 'Touch 4', 'Touch 5', 'Touch 6', 'Touch 7', 'Touch 8'],
+            labels: ['Touch 1', 'Touch 2', 'Touch 3', 'Touch 4', 'Touch 5', 'Touch 6', 'Touch 7'],
             datasets: [{
                 label: 'Touch Events',
                 data: [0, 0, 0, 0, 0, 0, 0, 0],
@@ -122,25 +122,9 @@ function updateStatusInfo(logs) {
         document.getElementById('last-event').textContent = timestamp.toLocaleTimeString();
     }
 
-    // Simulate touch indicators (in real implementation, this would come from API)
-    updateTouchIndicators();
+    // Touch indicators will be updated based on API response
 }
 
-// Simulate touch indicator updates
-function updateTouchIndicators() {
-    for (let i = 0; i < currentIndicators.length; i++) {
-        const indicator = document.getElementById(`indicator-${i + 1}`);
-        const wasActive = indicator.classList.contains('active');
-
-        // Simulate random touch activity
-        const isActive = Math.random() < 0.1; // 10% chance of being active
-
-        if (isActive && !wasActive) {
-            indicator.classList.add('active');
-            setTimeout(() => indicator.classList.remove('active'), 500);
-        }
-    }
-}
 
 // Export logs as CSV
 function exportCSV() {
