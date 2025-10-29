@@ -36,11 +36,19 @@ uint32_t touch_thresholds[TOUCH_PAD_COUNT];
 // HTTP server handle
 static httpd_handle_t server = NULL;
 
+static fdb_time_t get_time(void)
+{
+    // Return current time in milliseconds or seconds.
+    // For simplicity, using FreeRTOS tick count here.
+    // Consider using esp_timer_get_time() for microsecond resolution or an RTC.
+    return xTaskGetTickCount() * portTICK_PERIOD_MS; // Time in milliseconds
+}
+
 static fdb_err_t tsdb_init(void)
 {
     fdb_err_t result;
     ESP_LOGD(TAG, "Calling fdb_tsdb_init with name 'touch_events' and part_name 'flashdb'");
-    result = fdb_tsdb_init(&tsdb, "touch_events", "flashdb", NULL, 4096, NULL);
+    result = fdb_tsdb_init(&tsdb, "touch_events", "flashdb", get_time, 128, NULL);
     if (result != FDB_NO_ERR)
     {
         ESP_LOGE(TAG, "fdb_tsdb_init failed with error code: %d", result);
